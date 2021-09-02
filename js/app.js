@@ -33,36 +33,40 @@ const getSearchedBook = (data, searchText) => {
         arrBooks.forEach(element => {
             const col = document.createElement('div');
             col.classList.add('col');
-            let imgSrc = '';
-            //set default image URL, if API resturing undefined value
-            if (element?.cover_i === undefined) {
-                imgSrc = 'images/book.jpg';
-            }
-            else {
+            //set default value if API returning undefined
+            let imgSrc = setDefaultValue(element?.cover_i, 'images/book.jpg');
+            if (imgSrc !== 'images/book.jpg') {
                 imgSrc = `https://covers.openlibrary.org/b/id/${element?.cover_i}-M.jpg`;
             }
+            const title = setDefaultValue(element?.title, "Unavailable Information");
+            const author = setDefaultValue(element?.author_name?.[0], "Unavailable Information");
+            const publisher = setDefaultValue(element.publisher?.[0], "Unavailable Information");
+            const firstPublishYear = setDefaultValue(element?.first_publish_year, "Unavailable Information");
+            const authorNameArray = setDefaultValue(element?.author_name, author);
+            const publisherArray = setDefaultValue(element?.publisher, publisher);
+            const publishPlace = setDefaultValue(element?.publish_place?.[0], "a nice place")
             col.innerHTML = `<div class="card p-3 card-design h-100">
                                 <img class="card-img-top"
                                 src="${imgSrc}"
                                 height="250px" alt="Book image" onerror="images/book.jpg">
                                 <div class="card-body px-0 pb-0">
-                                    <h3 class="card-title text-center mb-0">${element?.title} </h3>
+                                    <h3 class="card-title text-center mb-0">${title} </h3>
                                     <h6 class="card-title text-center mb-0 pb-4">
                                         By
-                                        <span class='text-primary' title="${element?.author_name}">
-                                            ${element?.author_name?.[0]}
+                                        <span class='text-primary' title="${authorNameArray}">
+                                            ${author}
                                         </span>
                                     </h6>
                                     <h6 class="card-title">
                                         Publisher :
-                                        <span class='text-primary' title="${element?.publisher}">
-                                            ${element.publisher?.[0]}
+                                        <span class='text-primary' title="${publisherArray}">
+                                            ${publisher}
                                         <span>
                                     </h6>
                                     <p class="card-text">
                                         First pubished in 
-                                        <span title="at ${element?.publish_place?.[0]}">
-                                            <b> ${element?.first_publish_year} </b>
+                                        <span title="at ${publishPlace}">
+                                            <b> ${firstPublishYear} </b>
                                         <span>
                                     </p>
                                  </div>
@@ -100,6 +104,15 @@ const clearSearchResult = () => {
     document.getElementById('books-holder-id').textContent = '';
 
 }
+const setDefaultValue = (fromApi, dflt) => {
+    if (fromApi === undefined) {
+        return dflt;
+    }
+    else {
+        return fromApi;
+    }
+}
+
 //toggle spinner
 const toggleSpinner = displayStyle => {
     document.getElementById('spinner').style.display = displayStyle;

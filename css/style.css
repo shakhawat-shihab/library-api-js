@@ -16,6 +16,7 @@ body{
 }
 .card-design{
     border-radius: 8px;
+    box-shadow: 5px 10px 20px solid gray ;
 }
 .spinner-design{
     margin: auto;
