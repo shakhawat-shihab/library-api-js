@@ -1,18 +1,17 @@
 document.getElementById('search-button-id').addEventListener('click', (event) => {
     //stop submit button default characteristics
     event.preventDefault();
-    //when a new search start, clear previous results and run spinner
-    const booksHolder = document.getElementById('books-holder-id');
-    booksHolder.textContent = '';
-    //when a new search start, clear books found
+    //when a new search start searching, clear books found message
     document.getElementById('search-count-id').textContent = '';
-    //get search text and make search box empty after getting the text
+    //get search text, show message if the serach text is empty and return 
     const searchText = document.getElementById('search-text-id').value.trim();
     if (searchText === '') {
         showMessage("Write The Name of book first, then search", false);
+        clearSearchResult();
         return;
     }
-    document.getElementById('search-text-id').value = '';
+    //clear all the data when we do a search
+    clearSearchResult();
     //show spinner when search begins
     toggleSpinner('block');
     fetch(`https://openlibrary.org/search.json?q=${searchText}`)
@@ -34,10 +33,18 @@ const getSearchedBook = (data, searchText) => {
         arrBooks.forEach(element => {
             const col = document.createElement('div');
             col.classList.add('col');
+            let imgSrc = '';
+            //set default image URL, if API resturing undefined value
+            if (element?.cover_i === undefined) {
+                imgSrc = 'images/book.jpg';
+            }
+            else {
+                imgSrc = `https://covers.openlibrary.org/b/id/${element?.cover_i}-M.jpg`;
+            }
             col.innerHTML = `<div class="card p-3 card-design h-100">
                                 <img class="card-img-top"
-                                src="https://covers.openlibrary.org/b/id/${element?.cover_i}-M.jpg"
-                                height="250px" alt="Book image">
+                                src="${imgSrc}"
+                                height="250px" alt="Book image" onerror="images/book.jpg">
                                 <div class="card-body px-0 pb-0">
                                     <h3 class="card-title text-center mb-0">${element?.title} </h3>
                                     <h6 class="card-title text-center mb-0 pb-4">
@@ -83,6 +90,14 @@ const showMessage = (message, isSuccess) => {
         searchStatus.classList.remove('text-success');
         searchStatus.classList.add('text-danger');
     }
+
+}
+//clear all previous data
+const clearSearchResult = () => {
+    //search started so make the search input empty
+    document.getElementById('search-text-id').value = '';
+    //search started so clear previous results inside books-holder-id
+    document.getElementById('books-holder-id').textContent = '';
 
 }
 //toggle spinner
