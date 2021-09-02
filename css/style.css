@@ -16,6 +16,10 @@ body{
 }
 .card-design{
     border-radius: 8px;
-
-
+}
+.spinner-design{
+    margin: auto;
+    height: 80px;
+    width: 80px;
+    display: none;
 }

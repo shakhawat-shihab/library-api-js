@@ -32,7 +32,7 @@
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <form class="form-inline d-flex ms-auto my-2 my-lg-0">
                             <input class="form-control mr-sm-2 mx-2" type="search" placeholder="Search"
-                                aria-label="Search" id="search-text-id">
+                                aria-label="Search" id="search-text-id" required>
                             <button class="btn btn-outline-secondary my-2 my-sm-0" id="search-button-id"
                                 type="submit">Search</button>
                         </form>
@@ -43,7 +43,10 @@
     </header>
     <main>
         <!-- books section -->
-        <section class="mt-5 pt-5 container">
+        <section class="my-5 pt-5 container">
+            <div class="spinner-grow spinner-design mx-auto" role="status" id='spinner'>
+                <span class="sr-only"></span>
+            </div>
             <h4 id='search-count-id' class="text-center"> </h4>
             <!-- books card begin -->
             <div class="row row-cols-3 g-3" id='books-holder-id'>
