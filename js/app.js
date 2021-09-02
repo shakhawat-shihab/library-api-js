@@ -1,6 +1,11 @@
 document.getElementById('search-button-id').addEventListener('click', (event) => {
     //stop submit button default characteristics
     event.preventDefault();
+    //when a new search start, clear previous results and run spinner
+    const booksHolder = document.getElementById('books-holder-id');
+    booksHolder.textContent = '';
+    //when a new search start, clear books found
+    document.getElementById('search-count-id').textContent = '';
     //get search text and make search box empty after getting the text
     const searchText = document.getElementById('search-text-id').value;
     document.getElementById('search-text-id').value = '';
@@ -14,17 +19,19 @@ const getSearchedBook = (data, searchText) => {
     console.log(data.numFound);
     console.log(data.docs);
     console.log(data.docs.length);
-
+    //when a new search start, clear previous resultls
+    const booksHolder = document.getElementById('books-holder-id');
+    //booksHolder.textContent = '';
+    //get number of books found after search and the array consisting of books
     const numFound = data.numFound;
-    const arrBooks = data.docs;
+    const arrBooks = data.docs.slice(0, 50);
     if (numFound !== 0) {
-        //show number of books found
+        //show the books found after search in website
         const searchStatus = document.getElementById('search-count-id');
         searchStatus.innerText = `${numFound} Books found by searching '${searchText}'`;
         searchStatus.classList.remove('text-danger');
         searchStatus.classList.add('text-success');
         //loop through all the books and append them
-        const booksHolder = document.getElementById('books-holder-id');
         arrBooks.forEach(element => {
             const col = document.createElement('div');
             col.classList.add('col');
