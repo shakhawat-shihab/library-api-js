@@ -1,0 +1,10 @@
+/* google fonts */
+@import url('https://fonts.googleapis.com/css2?family=Lobster&display=swap');
+.f-lobster{
+    font-family: 'Lobster', cursive;
+    letter-spacing: 0.3rem;
+    color: #2e3131;
+}
+.bg-navbar{
+    background-color: #E2DCC5;
+}
